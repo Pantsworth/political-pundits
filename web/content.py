@@ -8,6 +8,10 @@ from context.nlp.entities import get_entities
 from context.nlp.keywords import get_keywords
 from auth import get_twitter_credentials
 from stakeholders import find_stakeholder_twitter_users
+import requests
+import httplib
+import urlparse
+
 
 
 class InvalidRequest(Exception):
@@ -130,3 +134,35 @@ def require_url(f):
         return f(*args, **kwargs)
     return wrapper
 
+
+# def validate_url(url):
+#     if check_url(url):
+#         return True
+#     r = requests.head(url)
+#     print r.status_code
+#     return r.status_code
+
+
+
+def get_server_status_code(url):
+    """
+    Download just the header of a URL and
+    return the server's status code.
+    """
+    # http://stackoverflow.com/questions/1140661
+    host, path = urlparse.urlparse(url)[1:3]    # elems [1] and [2]
+    try:
+        conn = httplib.HTTPConnection(host)
+        conn.request('HEAD', path)
+        return conn.getresponse().status
+    except StandardError:
+        return None
+
+def validate_url(url):
+    """
+    Check if a URL exists without downloading the whole file.
+    We only check the URL header.
+    """
+    # see also http://stackoverflow.com/questions/2924422
+    good_codes = [httplib.OK, httplib.FOUND, httplib.MOVED_PERMANENTLY]
+    return get_server_status_code(url) in good_codes

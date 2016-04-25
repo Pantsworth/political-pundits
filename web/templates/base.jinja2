@@ -115,6 +115,9 @@
             <li{% if request.endpoint == 'pundittweets' %} class="active"{% endif %}>
                 <a href="{{ url_for('pundittweets') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Pundit<br/>Tweets</a>
             </li>
+              <li{% if request.endpoint == 'politicalpundittweets' %} class="active"{% endif %}>
+                <a href="{{ url_for('politicalpundittweets') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Political Pundit<br/>Tweets</a>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

@@ -12,7 +12,7 @@ import flask
 from flask import Flask, render_template, request, jsonify, url_for, redirect
 from auth import get_twitter_credentials
 from content import content_identifier_required, content_keywords, \
-    content_entities, content_stakeholders, cached_content, content_categories
+    content_entities, content_stakeholders, cached_content, content_categories, validate_url
 from session import session_get, session_set, \
     remove_session_credentials, session_pop, session_pop_list
 from stakeholders import stakeholder_tweets
@@ -49,10 +49,19 @@ def render(data, template=None):
 def url_required():
     if request.method == 'POST':
         url = request.form['url']
-        next_ = request.form['next']
-        if url and next_:
-            return redirect('%s?url=%s' % (next_, url))
+        validation = validate_url(url)
+
+        if validation:
+            print url
+            print "WORKING URL"
+            next_ = request.form['next']
+            if url and next_:
+                return redirect('%s?url=%s' % (next_, url))
+        # else:
+        #     print "INVALID URL"
+        #     next_ = ""
     return render_template('url_required.jinja2', next=request.args.get('next'))
+
 
 
 @app.route('/auth/clear')
@@ -375,6 +384,41 @@ def stakeholdertweets(content_id=None):
 @app.route('/pundittweets/<content_id>/')
 @content_identifier_required
 def pundittweets(content_id=None):
+    """
+    Retrieve pundit tweets for article with <content_id>
+    Alternatively accepts url or id in query params.
+    """
+    try:
+        content = request.content
+        keywords = content_keywords(content)
+        categories = content_categories(content)
+        if not categories:
+            raise Exception('No categories found for article')
+        category = categories[0][0]
+        credentials = get_twitter_credentials()
+        tweets = pundit_tweets(
+            category,
+            keywords,
+            credentials=credentials)
+        tweets = dedupe_tweets(tweets)
+        return render({'tweets': tweets}, template='pundittweets.jinja2')
+    except TwitterAuthError:
+        # This redirect is for the HTML UI. JSON clients should execute
+        # the auth-check / auth-verify cycle before making API calls
+        return redirect(url_for('auth_check') + \
+            '?redirect=%s' % request.url)
+    except TwitterClientError:
+        return render({'url':request.url},
+            template='twitter_client_error.jinja2')
+    except Exception, e:
+        traceback.print_exc()
+        return render({'url': request.url, 'error': str(e)},
+            template='error.jinja2')
+
+@app.route('/politicalpundittweets')
+@app.route('/politicalpundittweets/<content_id>/')
+@content_identifier_required
+def politicalpundittweets(content_id=None):
     """
     Retrieve pundit tweets for article with <content_id>
     Alternatively accepts url or id in query params.
