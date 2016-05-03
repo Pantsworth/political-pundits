@@ -326,6 +326,7 @@ a:focus {
 
 .span4 {
   width: 300px;
+  margin-top: 400px;
 }
 
 .span3 {
@@ -467,6 +468,7 @@ a:focus {
 .row-fluid .span4 {
   width: 31.914893617021278%;
   *width: 31.861702127659576%;
+  top: 200px;
 }
 
 .row-fluid .span3 {
