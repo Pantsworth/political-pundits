@@ -1,8 +1,30 @@
 {% extends "base.jinja2" %}
 
 {% block content %}
-  <h2><a href="{{ url }}">{{ title }}</a></h2>
+
+  <br><br><br>
   <div>
-    {{ text }}
+  <section class="tiles">
+    <article class="style1">
+        <span class="image">
+            <img src="static/images/pic01.jpg" height = "600px" alt="" />
+        </span>
+        <a href="{{ url }}">
+            <h2> {{ title }} </h2>
+            <div class="content">
+                {{text}}
+            </div>
+        </a>
+    </article>
+  </section>
   </div>
+
+
+{# js scripts #}
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/skel.min.js"></script>
+<script src="assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="assets/js/main.js"></script>
+
 {% endblock content %}
