@@ -4,7 +4,7 @@ import re
 import json
 from newspaper import Article
 
-num_links_per = 1
+num_links_per = 1000
 
 links = []
 
