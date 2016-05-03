@@ -3,8 +3,10 @@ import bs4
 import re
 import json
 from newspaper import Article
+from time import sleep
 
 num_links_per = 1000
+nap_time = 5
 
 links = []
 
@@ -72,8 +74,14 @@ while len(aljazeera_links) < num_links_per:
 
         page += 1
 
-        response = requests.get(website + "/topics/topic/categories/international.html%3Fpage=" + str(page))
-        soup = bs4.BeautifulSoup(response.text, "html.parser")
+        try:
+            response = requests.get(website + "/topics/topic/categories/international.html%3Fpage=" + str(page))
+            soup = bs4.BeautifulSoup(response.text, "html.parser")
+        except requests.exceptions.ConnectionError:
+            time.sleep(nap_time)
+            response = requests.get(website + "/topics/topic/categories/international.html%3Fpage=" + str(page))
+            soup = bs4.BeautifulSoup(response.text, "html.parser")
+
 
 links += aljazeera_links
 
@@ -84,8 +92,13 @@ page = 1
 
 reuters_links = []
 while len(reuters_links) < num_links_per:
-    response = requests.get(website + "/news/archive/worldNews?view=page&page=" + str(page))
-    soup = bs4.BeautifulSoup(response.text, "html.parser")
+    try:
+        response = requests.get(website + "/news/archive/worldNews?view=page&page=" + str(page))
+        soup = bs4.BeautifulSoup(response.text, "html.parser")
+    except requests.exceptions.ConnectionError:
+        time.sleep(nap_time)
+        response = requests.get(website + "/news/archive/worldNews?view=page&page=" + str(page))
+        soup = bs4.BeautifulSoup(response.text, "html.parser")
 
     for a in soup.select('h3.story-title a'):
         href = str(a.attrs.get('href'))
