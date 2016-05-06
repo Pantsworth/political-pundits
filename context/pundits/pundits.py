@@ -4,22 +4,35 @@ import bs4
 from newspaper import Article
 
 def get_relevant_articles(query):
+    '''
+    takes in a query (keyword) and returns relevant snippets if that keyword exists, else returns false
+    snippets are dictionaries with the following keys:
+        name: name of pundit
+        keyword: query keyword
+        source: where the text came from (twitter or cfr)
+        url: url to the full text (article or tweet)
+        text: body of the snippet
+    '''
+
     with open('panel/panel.json', "r") as json_file:
         panel = json.loads(json_file.read())
-        for keyword in panel:
-            if keyword == query:
-                for user in panel[keyword]:
-                    # print user['name']
-                    for link in user['links']:
-                        if user['links'][link]:
-                            snippet = {}
-                            snippet['name'] = user['name']
-                            snippet['keyword'] = query
-                            url = user['links'][link]
-                            # print "\t" + url
-                            get_relevant_text(query, link, url, snippet)
+        if query in panel.keys():
+            for user in panel[query]:
+                for link in user['links']:
+                    if user['links'][link]:
+                        snippet = {}
+                        snippet['name'] = user['name']
+                        snippet['keyword'] = query
+                        url = user['links'][link]
+                        get_relevant_text(query, link, url, snippet)
+        else:
+            return False
+
 
 def get_relevant_text(query, website, url, snippet):
+    '''
+    takes in the query, website, url, and snippet, and constructs the full snippet
+    '''
     query = query.lower()
     snippet['source'] = website
     if website == "cfr":
