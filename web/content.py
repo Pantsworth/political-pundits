@@ -12,10 +12,79 @@ import requests
 import httplib
 import urlparse
 
+from context.pundits import pundits
+
+import newspaper
 
 
 class InvalidRequest(Exception):
     status_code = 400
+
+
+def all_the_content(content, reload_pundits=False):
+    """
+
+    :param content: this is the mongo object containing our content up to now
+    :param reload_pundits: if true, pundits are re-scraped every time
+    :return: returns keywords, entities, and newpundits, as well as storing them in the mongo object for the article
+    """
+
+    reload_pundits = True
+
+    article = newspaper.Article(content['url'])
+    article.download()
+    article.parse()
+    article.nlp()
+
+    print "HERE ARE THE NEWSPAPER KEYWORDS", article.keywords
+
+
+    if not 'keywords' in content:
+        content['keywords'] = [x for x in get_keywords(content['text'])
+            if x['count'] > 2]
+        _content.update({'_id': bson.ObjectId(content['id'])},
+            {'$set': {'keywords': content['keywords']}})
+
+    if not 'entities' in content:
+        content['entities'] = get_entities(content['text'])
+        _content.update({'_id': bson.ObjectId(content['id'])},
+            {'$set': {'entities': content['entities']}})
+
+    if reload_pundits:
+        content['newpundits'] = []
+        for keyword in article.keywords:
+            snippet_result = pundits.retrieve_snippets(keyword)
+            if snippet_result:
+                content['newpundits'].append(snippet_result)
+        _content.update({'_id': bson.ObjectId(content['id'])},
+            {'$set': {'newpundits': content['newpundits']}})
+
+    if not 'newpundits' in content:
+        content['newpundits'] = []
+        for keyword in article.keywords:
+            snippet_result = pundits.retrieve_snippets(keyword)
+            if snippet_result:
+                content['newpundits'].append(snippet_result)
+        _content.update({'_id': bson.ObjectId(content['id'])},
+            {'$set': {'newpundits': content['newpundits']}})
+
+
+
+    if not len(content['newpundits']):
+        print "nothing to see here!"
+        failed_snippet = {}
+        failed_snippet['name'] = "#shambles"
+        failed_snippet['text'] = "we can't seem to find anything."
+        content['newpundits'] = [[failed_snippet]]
+    else:
+        print "HERE ARE NEW PUNDITS:", content['newpundits']
+
+    # if not 'categories' in content:
+    #     content['categories'] = classify_text(content['text'])
+    #     _content.update({'_id': bson.ObjectId(content['id'])},
+    #         {'$set': {'categories': content['categories']}})
+
+    return content['keywords'], content['entities'], content['newpundits']
 
 
 def content_keywords(content):
@@ -61,6 +130,8 @@ def cached_content(url=None, content_id=None, refresh=False):
     """
     Retrieve content from the cache or fetch it and cache it. Replaces
     Mongo's _id with id.  Will always fetch anew if refresh=True.
+
+    returns json object with url, title, and text as fields.
     """
     if url:
         r = _content.find_one({'url': url})
@@ -73,7 +144,7 @@ def cached_content(url=None, content_id=None, refresh=False):
         r = {
             'url': url,
             'title': data['title'],
-            'text': data['text']
+            'text': data['text'],
         }
         _content.insert(r, manipulate=True)  # so id is set
     elif refresh:
@@ -82,7 +153,8 @@ def cached_content(url=None, content_id=None, refresh=False):
             '_id': r['_id'],
             'url': url,
             'title': data['title'],
-            'text': data['text']
+            'text': data['text'],
+            'test': 'testing this function',
         }
         _content.save(update_r)
         r = update_r
@@ -135,15 +207,6 @@ def require_url(f):
     return wrapper
 
 
-# def validate_url(url):
-#     if check_url(url):
-#         return True
-#     r = requests.head(url)
-#     print r.status_code
-#     return r.status_code
-
-
-
 def get_server_status_code(url):
     """
     Download just the header of a URL and
@@ -157,6 +220,7 @@ def get_server_status_code(url):
         return conn.getresponse().status
     except StandardError:
         return None
+
 
 def validate_url(url):
     """

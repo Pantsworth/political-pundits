@@ -1,10 +1,29 @@
 {% extends "base.jinja2" %}
 
 {% block content %}
-    {% for t in tweets %}
-        <p>
-        <strong>@{{ t.user.screen_name }}</strong><br>
-        {{ t.text }}
-        </p>
-    {% endfor %}
+
+  <br><br><br>
+  <div>
+  <section class="tiles">
+    <article class="style1">
+        <span class="image">
+            <img src="static/images/pic01.jpg" height = "600px" alt="" />
+        </span>
+        <a href="{{ url }}"></a>
+            <h2> {{ title }} </h2>
+            <div class="content">
+                <p>{{ test }}</p>
+            </div>
+    </article>
+  </section>
+  </div>
+
+
+{# js scripts #}
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/skel.min.js"></script>
+<script src="assets/js/util.js"></script>
+<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+<script src="assets/js/main.js"></script>
+
 {% endblock content %}

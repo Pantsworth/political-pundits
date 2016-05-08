@@ -1,7 +1,10 @@
 import json
 import requests
 import bs4
+import os
 from newspaper import Article
+
+from fuzzywuzzy import fuzz
 
 def retrieve_snippets(query):
     '''
@@ -16,10 +19,28 @@ def retrieve_snippets(query):
     '''
 
     snippets = []
+    fn = os.path.join(os.path.dirname(__file__), 'panel/panel.json')
 
-    with open('panel/panel.json', "r") as json_file:
+    with open(fn, "r") as json_file:
         panel = json.loads(json_file.read())
+        # print query, panel.keys()
+
+        # for key in panel.keys():
+        #     ratio = fuzz.ratio(query, key)
+        #     print key, query, ratio
+        #     if ratio > .80:
+        #         for user in panel[key]:
+        #             for link in user['links']:
+        #                 if user['links'][link]:
+        #                     snippet = {}
+        #                     snippet['name'] = user['name']
+        #                     snippet['title'] = user['title']
+        #                     snippet['keyword'] = query
+        #                     url = user['links'][link]
+        #                     snippets = build_snippets(query, link, url, snippet)
+
         if query in panel.keys():
+            print "FOUND RESULTS FOR ", query
             for user in panel[query]:
                 for link in user['links']:
                     if user['links'][link]:
@@ -28,10 +49,15 @@ def retrieve_snippets(query):
                         snippet['title'] = user['title']
                         snippet['keyword'] = query
                         url = user['links'][link]
-                        snippets = build_snippets(query, link, url, snippet)
+                        print "WORKING ON SNIPPETS FROM", user['name']
+                        snippet_search_result = build_snippets(query, link, url, snippet)
+                        if snippet_search_result:
+                            snippets.append(snippet_search_result)
+                        print "SNIPPETS SO FAR:", snippets
         else:
             return False
 
+    print "HERE ARE THE SNIPPETS:", snippets
     return snippets
 
 
@@ -39,9 +65,12 @@ def build_snippets(query, website, url, snippet):
     '''
     takes in the query, website, url, and snippet, and constructs the full snippet
     '''
-    snippets = []
+    # snippets = []
     snippet['source'] = website
+
+    print "BUILDING SNIPPETS..."
     if website == "cfr":
+        print "FROM CFR..."
         response = requests.get(url + "#publications")
         soup = bs4.BeautifulSoup(response.text, "html.parser")
         for article in soup.select('article.publication_spotlight h3 a'):
@@ -54,8 +83,10 @@ def build_snippets(query, website, url, snippet):
             if query in article.keywords:
                 snippet['text'] = article.summary
                 snippet['url'] = full_url
-                snippets.append(snippet)
+                # snippets.append(snippet)
+
     elif website == "twitter":
+        print "FROM TWITTER..."
         response = requests.get(url)
         soup = bs4.BeautifulSoup(response.text, "html.parser")
         for tweet in soup.select('div.tweet'):
@@ -67,6 +98,11 @@ def build_snippets(query, website, url, snippet):
                     if query in tweet_content:
                         snippet['text'] = tweet_content
                         snippet['url'] = "http://twitter.com" + tweet_url
-                        snippets.append(snippet)
+                        # snippets.append(snippet)
 
-    return snippets
+    print "DONE WITH SNIPPETS"
+    if 'text' in snippet:
+        return snippet
+
+    else:
+        return False

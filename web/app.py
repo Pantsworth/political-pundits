@@ -11,7 +11,7 @@ from context.services.twitter import search as twitter_search
 import flask
 from flask import Flask, render_template, request, jsonify, url_for, redirect
 from auth import get_twitter_credentials
-from content import content_identifier_required, content_keywords, \
+from content import content_identifier_required, all_the_content, content_keywords, \
     content_entities, content_stakeholders, cached_content, content_categories, validate_url
 from session import session_get, session_set, \
     remove_session_credentials, session_pop, session_pop_list
@@ -25,12 +25,6 @@ app = Flask(__name__)
 from werkzeug.wsgi import DispatcherMiddleware
 
 app.secret_key = get_section_data()['flaskapp_secret_key']
-
-# this does nothing
-#application = DispatcherMiddleware(app, {
-#    '/context':     app
-#})
-
 application = app
 
 
@@ -103,7 +97,9 @@ def auth_check():
             specific and thus problematic for our extension-approach). This
             might allow us to consolidate Twitter creds per user rather than
             storing them for each domain visited."""
+
             verif = client.api.account.verify_credentials.get()
+
             if verif.headers['status'].split()[0] == '200':
                 return jsonify({'is_auth': 1})
             else:
@@ -114,7 +110,9 @@ def auth_check():
         tk = get_twitter_keys()
         client = UserClient(tk.consumer_key, tk.consumer_secret)
         callback = 'http://'+request.host+url_for('auth_verify')
+
         token = client.get_authorize_token(callback)
+
         session_set('auth_token', token.oauth_token)
         session_set('auth_token_secret', token.oauth_token_secret)
         session_set('auth_redirect',
@@ -424,27 +422,16 @@ def politicalpundittweets(content_id=None):
     Alternatively accepts url or id in query params.
     """
     try:
-        content = request.content
-        keywords = content_keywords(content)
-        categories = content_categories(content)
-        if not categories:
-            raise Exception('No categories found for article')
-        category = categories[0][0]
-        credentials = get_twitter_credentials()
-        tweets = pundit_tweets(
-            category,
-            keywords,
-            credentials=credentials)
-        tweets = dedupe_tweets(tweets)
-        return render({'tweets': tweets}, template='pundittweets.jinja2')
-    except TwitterAuthError:
-        # This redirect is for the HTML UI. JSON clients should execute
-        # the auth-check / auth-verify cycle before making API calls
-        return redirect(url_for('auth_check') + \
-            '?redirect=%s' % request.url)
-    except TwitterClientError:
-        return render({'url':request.url},
-            template='twitter_client_error.jinja2')
+        url = request.args.get('url')
+        if not url:
+            raise Exception('Expected url parameter')
+
+        grab_content = cached_content(url)
+        all_content = all_the_content(grab_content)
+        print all_content
+
+        return render(grab_content, template='new-pundits.html')
+
     except Exception, e:
         traceback.print_exc()
         return render({'url': request.url, 'error': str(e)},
@@ -479,6 +466,7 @@ def topic(content_id=None):
         traceback.print_exc()
         return render({'url': request.url, 'error': str(e)},
             template='error.jinja2')
+
 
 @app.route('/localtweets')
 @content_identifier_required
