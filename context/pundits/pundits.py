@@ -8,6 +8,7 @@ def retrieve_snippets(query):
     takes in a query (keyword) and returns a list of relevant snippets if that keyword exists, else returns false
     snippets are dictionaries with the following keys:
         name: name of pundit
+        title: the pundit's credentials
         keyword: query keyword
         source: where the text came from (twitter or cfr)
         url: url to the full text (article or tweet)
@@ -24,13 +25,13 @@ def retrieve_snippets(query):
                     if user['links'][link]:
                         snippet = {}
                         snippet['name'] = user['name']
+                        snippet['title'] = user['title']
                         snippet['keyword'] = query
                         url = user['links'][link]
                         snippets = build_snippets(query, link, url, snippet)
         else:
             return False
 
-    print snippets
     return snippets
 
 
@@ -39,7 +40,6 @@ def build_snippets(query, website, url, snippet):
     takes in the query, website, url, and snippet, and constructs the full snippet
     '''
     snippets = []
-    query = query.lower()
     snippet['source'] = website
     if website == "cfr":
         response = requests.get(url + "#publications")
