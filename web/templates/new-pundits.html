@@ -6,43 +6,51 @@
 </head>
 <body>
 <a href="/politicalpundittweets">HOME</a>
-<h1>{{ title }}</h1>
-<h3>{{ url }}</h3>
-<p>{{ text }}</p>
 
-<h1> SNIPPETS </h1>
+<div style="width: 100%; overflow: hidden;">
 
-  {% for snippetlists in newpundits %}
-    {% for snippet in snippetlists %}
-
-    <h3>{{ snippet.name }}</h3>
-        <h3>{{ snippet.title }}</h3>
-        <a href={{ snippet.url }}>{{ snippet.url }}</a>
-    <p><strong></strong> {{ snippet.text }} </p>
-    <p><strong></strong> {{ snippet }} </p>
+    <div style="width: 600px; float: left;">
+        <h1>{{ title }}</h1>
+        <h3>{{ url }}</h3>
+        <p>{{ text }}</p>
     </div>
-    {% endfor %}
-    {% endfor %}
 
-<h1> KEYWORDS </h1>
+    <div style="margin-left: 620px;">
+        <h1> SNIPPETS </h1>
 
-  {% for keyword in keywords %}
-    <div>
-    <h3>{{ keyword.keyword }}</h3>
-    <p><strong>count:</strong> {{ keyword.count }} &nbsp; <strong>locations:</strong> {{ keyword.locations|join(' | ') }}</p>
+          {% for snippetlists in newpundits %}
+            {% for snippet in snippetlists %}
+
+            <h3>{{ snippet.name }}</h3>
+                <h3>{{ snippet.title }}</h3>
+                <a href={{ snippet.url }}>{{ snippet.url }}</a>
+                <p><strong></strong> {{ snippet.text }} </p>
+                <p><strong></strong> {{ snippet }} </p>
+            {% endfor %}
+          {% endfor %}
+
+        <h1> KEYWORDS </h1>
+
+          {% for keyword in keywords %}
+            <div>
+                <h3>{{ keyword.keyword }}</h3>
+                <p><strong>count:</strong> {{ keyword.count }} &nbsp; <strong>locations:</strong> {{ keyword.locations|join(' | ') }}</p>
+            </div>
+            {% endfor %}
+
+
+        <h1> ENTITIES </h1>
+
+          {% for entity in entities %}
+            <div>
+                <h3>{{ entity.name }}</h3>
+                <h4>{{ entity.name_forms|join(' | ') }}</h4>
+                <p><strong>Type:</strong> {{ entity.type }}</p>
+                <p><strong>Score:</strong> {{ entity.score }}</p>
+            </div>
+          {% endfor %}
     </div>
-    {% endfor %}
+</div>
 
-
-<h1> ENTITIES </h1>
-
-  {% for entity in entities %}
-    <div>
-        <h3>{{ entity.name }}</h3>
-        <h4>{{ entity.name_forms|join(' | ') }}</h4>
-        <p><strong>Type:</strong> {{ entity.type }}</p>
-        <p><strong>Score:</strong> {{ entity.score }}</p>
-    </div>
-  {% endfor %}
 </body>
 </html>
