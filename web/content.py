@@ -29,7 +29,7 @@ def all_the_content(content, reload_pundits=False):
     :return: returns keywords, entities, and newpundits, as well as storing them in the mongo object for the article
     """
 
-    reload_pundits = True
+    reload_pundits = False
 
     article = newspaper.Article(content['url'])
     article.download()

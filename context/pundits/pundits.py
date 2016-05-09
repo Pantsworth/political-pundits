@@ -4,7 +4,6 @@ import bs4
 import os
 from newspaper import Article
 
-from fuzzywuzzy import fuzz
 
 def retrieve_snippets(query):
     '''
