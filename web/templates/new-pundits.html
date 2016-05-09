@@ -8,34 +8,37 @@
 </head>
 <body>
 
-<p>.       <a href="/politicalpundittweets">  HOME</a></p>
+<div style="margin-top:20px; margin-left:30px;"><a href="/politicalpundittweets">  HOME</a></p></div>
 
 <div style="width: 100%; overflow: hidden;">
 
-    <div style="width: 600px; float: left; margin-left: 20px; margin-right:20px;">
+    <div style="width: 600px; float: left; margin-left: 30px; margin-right:30px; background:#faf8de;">
         <h1>{{ title }}</h1>
         <p><a href="{{ url }}">{{ url }}</a></p>
         <p>{{ text }}</p>
     </div>
 
-    <div style="margin-left: 620px;">
+    <div style="margin-left: 700px; margin-right: 80px;">
         <h1> SNIPPETS </h1>
 
           {% for snippetlists in newpundits %}
             {% for snippet in snippetlists %}
 
+            <div style="background: #e5fade;">
             <h3>{{ snippet.name }}</h3>
-                <h3>{{ snippet.title }}</h3>
+                <p>{{ snippet.title }}</p>
                 <a href={{ snippet.url }}>{{ snippet.url }}</a>
                 <p><strong></strong> {{ snippet.text }} </p>
                 <p><strong></strong> {{ snippet }} </p>
+              </div>
             {% endfor %}
           {% endfor %}
+
 
         <h1> KEYWORDS </h1>
 
           {% for keyword in keywords %}
-            <div>
+            <div style="background: #def3fa;">
                 <h3>{{ keyword.keyword }}</h3>
                 <p><strong>count:</strong> {{ keyword.count }} &nbsp; <strong>locations:</strong> {{ keyword.locations|join(' | ') }}</p>
             </div>
@@ -45,9 +48,9 @@
         <h1> ENTITIES </h1>
 
           {% for entity in entities %}
-            <div>
+            <div style="background: #f3defa;">
                 <h3>{{ entity.name }}</h3>
-                <h4>{{ entity.name_forms|join(' | ') }}</h4>
+                <p>{{ entity.name_forms|join(' | ') }}</p>
                 <p><strong>Type:</strong> {{ entity.type }}</p>
                 <p><strong>Score:</strong> {{ entity.score }}</p>
             </div>
