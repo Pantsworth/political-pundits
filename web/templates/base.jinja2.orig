@@ -10,6 +10,7 @@
     <!-- Le styles -->
     {# <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> #}
     <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 20px;

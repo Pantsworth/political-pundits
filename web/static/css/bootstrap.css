@@ -326,7 +326,6 @@ a:focus {
 
 .span4 {
   width: 300px;
-  margin-top: 400px;
 }
 
 .span3 {
@@ -3100,6 +3099,7 @@ table th[class*="span"],
 .dropdown .dropdown-menu .nav-header {
   padding-right: 20px;
   padding-left: 20px;
+  position: center;
 }
 
 .typeahead {
@@ -4418,7 +4418,7 @@ input[type="submit"].btn.btn-mini {
   float: left;
   padding: 10px 20px 10px;
   margin-left: -20px;
-  font-size: 20px;
+  font-size: 10px;
   font-weight: 200;
   color: #777777;
   text-shadow: 0 1px 0 #ffffff;
@@ -4548,6 +4548,7 @@ input[type="submit"].btn.btn-mini {
   left: 0;
   z-index: 1030;
   margin-bottom: 0;
+  font-size: 10px;
 }
 
 .navbar-fixed-top .navbar-inner,

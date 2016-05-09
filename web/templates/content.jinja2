@@ -7,12 +7,12 @@
   <section class="tiles">
     <article class="style1">
         <span class="image">
-            <img src="static/images/pic01.jpg" height = "600px" alt="" />
+            <img src="static/images/pic01.jpg" height = "300px" alt="" />
         </span>
         <a href="{{ url }}">
             <h2> {{ title }} </h2>
             <div class="content">
-                {{text}}
+                {{text | truncate(200)}}
             </div>
         </a>
     </article>
