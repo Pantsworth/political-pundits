@@ -5,6 +5,7 @@
    <form action="{{ url_for('url_required') }}" method="POST">
     <input type="hidden" name="next" value="{{ next }}" />
     <input name="url" type="text" size="55"/>
+    <br>
     <input type="submit" value="Submit" />
    </form>
 {% endblock content %}
