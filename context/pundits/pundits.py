@@ -18,25 +18,10 @@ def retrieve_snippets(query):
     '''
 
     snippets = []
-    fn = os.path.join(os.path.dirname(__file__), 'panel/panel.json')
+    fn = os.path.join(os.path.dirname('__file__'), 'panel/panel.json')
 
     with open(fn, "r") as json_file:
         panel = json.loads(json_file.read())
-        # print query, panel.keys()
-
-        # for key in panel.keys():
-        #     ratio = fuzz.ratio(query, key)
-        #     print key, query, ratio
-        #     if ratio > .80:
-        #         for user in panel[key]:
-        #             for link in user['links']:
-        #                 if user['links'][link]:
-        #                     snippet = {}
-        #                     snippet['name'] = user['name']
-        #                     snippet['title'] = user['title']
-        #                     snippet['keyword'] = query
-        #                     url = user['links'][link]
-        #                     snippets = build_snippets(query, link, url, snippet)
 
         if query in panel.keys():
             print "FOUND RESULTS FOR ", query
@@ -82,7 +67,6 @@ def build_snippets(query, website, url, snippet):
             if query in article.keywords:
                 snippet['text'] = article.summary
                 snippet['url'] = full_url
-                # snippets.append(snippet)
 
     elif website == "twitter":
         print "FROM TWITTER..."
@@ -97,7 +81,22 @@ def build_snippets(query, website, url, snippet):
                     if query in tweet_content:
                         snippet['text'] = tweet_content
                         snippet['url'] = "http://twitter.com" + tweet_url
-                        # snippets.append(snippet)
+
+    elif website == "brookings":
+        print "FROM BROOKINGS..."
+        response = requests.get(url)
+        soup = bs4.BeautifulSoup(response.text, "html.parser")
+        for article in soup.select('ul.media-list li div.content h3.title a'):
+            href = str(article.attrs.get('href'))
+            full_url = "http://www.brookings.edu" + href
+            article = Article(full_url)
+            article.download()
+            article.parse()
+            article.nlp()
+            if query in article.keywords:
+                print "relevant article"
+                snippet['text'] = article.summary
+                snippet['url'] = full_url
 
     print "DONE WITH SNIPPETS"
     if 'text' in snippet:
