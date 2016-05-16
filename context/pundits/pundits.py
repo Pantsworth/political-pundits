@@ -56,7 +56,7 @@ def retrieve_snippets(query, n=-1):
                         snippet['keyword'] = query
                         url = user['links'][link]
                         print "WORKING ON SNIPPETS FROM", user['name'], "\n"
-                        if url_duplicates.has_key(url):
+                        if not url_duplicates.has_key(url):
                             process = threading.Thread(target=build_snippets, args=[query, link, url, snippet])
                             url_duplicates[url] = 1
                             process.start()
@@ -66,22 +66,6 @@ def retrieve_snippets(query, n=-1):
 
             for process in threads:
                 process.join()
-
-        #         # At this point, results for each URL are now neatly stored in order in 'results'
-        #         for link in user['links']:
-        #             if user['links'][link]:
-        #                 snippet = {}
-        #                 snippet['name'] = user['name']
-        #                 snippet['title'] = user['title']
-        #                 snippet['keyword'] = query
-        #                 url = user['links'][link]
-        #                 print "WORKING ON SNIPPETS FROM", user['name']
-        #                 snippet_search_result = build_snippets(query, link, url, snippet)
-        #                 if snippet_search_result:
-        #                     snippets.append(snippet_search_result)
-        #                 print "SNIPPETS SO FAR:", snippets
-        # else:
-        #     return False
 
     print "HERE ARE THE SNIPPETS:", results
 
@@ -199,6 +183,10 @@ def validate_url(url):
 
 
 if __name__ == '__main__':
-    print retrieve_snippets('syria')
+    # test to make sure we get nothing the second time:
+    # snippets_1 = retrieve_snippets('syria')
+    # snippets_2 = retrieve_snippets('syria')
+    # print "snippets_1", snippets_1
+    # print "snippets_2", snippets_2
     # print "results are: ", results
     print "done"
