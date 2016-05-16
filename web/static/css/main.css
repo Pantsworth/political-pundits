@@ -1,5 +1,6 @@
 @import url(font-awesome.min.css);
 @import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,700,900");
+@import url("https://fonts.googleapis.com/css?family=Crimson+Text");
 
 /*
 	Phantom by HTML5 UP
@@ -15,11 +16,14 @@
 		border: 0;
 		font-size: 100%;
 		font: inherit;
+		font-color: #202020;
 		vertical-align: baseline;
+		background-color: #fff7e7;
 	}
 
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 		display: block;
+		background-color: #fff7e7;
 	}
 
 	body {
@@ -1693,9 +1697,11 @@
 	h1 {
 		font-size: 2.75em;
 		font-weight: 700;
+		font-family: 'Crimson Text', serif;
 		line-height: 1.3;
 		margin: 0 0 1em 0;
-		letter-spacing: -0.035em;
+		letter-spacing: 0.028em;
+		color: #f05454;
 	}
 
 		h1 a {
@@ -1723,8 +1729,7 @@
 		font-weight: 900;
 		line-height: 1.5;
 		margin: 0 0 2em 0;
-		text-transform: uppercase;
-		letter-spacing: 0.15em;
+		letter-spacing: 0.035em;
 	}
 
 		h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -1740,7 +1745,9 @@
 	}
 
 	h4 {
-		font-size: 0.8em;
+		font-size: 2.0em;
+		font-family: 'Crimson Text', serif;
+		letter-spacing: -0.015em;
 	}
 
 	h5 {

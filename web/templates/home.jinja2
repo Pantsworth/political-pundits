@@ -6,12 +6,17 @@ buckley-vidal
     <p></p>
       <div class="row-fluid">
         <div class="span4">
-          <h1>Intelligence in Context</h1>
-          <p><img src="/static/images/mock2.jpg" width="49%";>       <img src="/static/images/mock4.jpg" width="49%";></p>
-          <p>The contextual analysis projects at Northwestern's Infolab are a group of projects with a common set of goals and a common architecture. Built on the lab's Architecture for Contextual Analysis, the following browser extension incorporates different approaches to analyzing and presenting data related to the user's current context.</p>
-          <a href="/politicalpundittweets"><h2>CLICK HERE TO GIVE US A URL</h2></a>
-
+          <h1>Political Pundits</h1>
+          <h4>Give us a link to an article about a recent global affair. We'll show you what today's political experts are saying about it...</h4>
+          <a href="/politicalpundittweets"><h2>CLICK HERE TO GIVE US A URL and dont put anything in the below form lol</h2></a>
         </div>
       </div>
+
+    <form action="{{ url_for('url_required') }}" method="POST">
+        <input type="hidden" name="next" value="{{ next }}" />
+        <input name="url" type="text" size="55"/>
+        <br>
+        <input type="submit" value="Submit" />
+    </form>
 
 {% endblock %}

@@ -6,20 +6,21 @@
     <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
 </head>
+
 <body>
 
-<div style="margin-top:20px; margin-left:30px;"><a href="/politicalpundittweets">  HOME</a></p></div>
+<div style="margin-top:20px; padding-left:30px; padding-bottom:30px;"><a href="/politicalpundittweets">  HOME</a></div>
 
 <div style="width: 100%; overflow: hidden;">
 
-    <div style="width: 600px; float: left; margin-left: 30px; margin-right:30px; background:#faf8de;">
+    <div style="width: 600px; float: left; margin-left: 30px; margin-right:30px;">
         <h1>{{ title }}</h1>
         <p><a href="{{ url }}">{{ url }}</a></p>
         <p>{{ text }}</p>
     </div>
 
     <div style="margin-left: 700px; margin-right: 80px;">
-        <h1> SNIPPETS </h1>
+        <h1> Snippets </h1>
 
           {% for snippetlists in newpundits %}
             {% for snippet in snippetlists %}
@@ -35,7 +36,7 @@
           {% endfor %}
 
 
-        <h1> KEYWORDS </h1>
+        <h1> Keywords </h1>
 
           {% for keyword in keywords %}
             <div style="background: #def3fa;">
@@ -45,7 +46,7 @@
             {% endfor %}
 
 
-        <h1> ENTITIES </h1>
+        <h1> Entities </h1>
 
           {% for entity in entities %}
             <div style="background: #f3defa;">
