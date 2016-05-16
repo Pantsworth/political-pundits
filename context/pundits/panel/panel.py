@@ -13,6 +13,7 @@ def open_panel():
             pundit['links'] = {}
             pundit['links']['twitter'] = row['Twitter']
             pundit['links']['cfr'] = row['CFR']
+            pundit['links']['brookings'] = row['Brookings']
 
             for keyword in row['Area'].split(','):
                 keyword = keyword.strip()
@@ -24,11 +25,12 @@ def open_panel():
     return panel
 
 
-def dump_panel():
+def dump_panel(panel):
     with open('panel.json', 'w') as outfile:
         json.dump(panel, outfile)
 
 
 if __name__ == '__main__':
     panel = open_panel()
+    dump_panel(panel)
     print panel
