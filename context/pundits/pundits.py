@@ -10,9 +10,13 @@ import urlparse
 results = []
 url_duplicates = []
 
-def retrieve_snippets(query):
+def retrieve_snippets(query, n=-1):
     '''
-    takes in a query (keyword) and returns a list of relevant snippets if that keyword exists, else returns false
+    takes in:
+        query: keyword (string)
+        n: number of snippets to return (if -1, will return all snippets)
+    and returns a list of relevant snippets if that keyword exists
+
     snippets are dictionaries with the following keys:
         name: name of pundit
         title: the pundit's credentials
@@ -20,6 +24,7 @@ def retrieve_snippets(query):
         source: where the text came from (twitter or cfr)
         url: url to the full text (article or tweet)
         text: body of the snippet
+        relevance: number of times that query appears in the snippet text
     '''
     global results
 
@@ -75,7 +80,13 @@ def retrieve_snippets(query):
         #     return False
 
     print "HERE ARE THE SNIPPETS:", results
-    return results
+
+    if n == -1:
+        return results
+    else:
+        sorted_snippets = sorted(results, key=lambda k: k['relevance'])
+        return sorted_snippets[:n]
+
 
 
 def build_snippets(query, website, url, snippet):
@@ -112,6 +123,7 @@ def build_snippets(query, website, url, snippet):
                     if query in article.keywords:
                         snippet['text'] = article.summary
                         snippet['url'] = full_url
+                        snippet['relevance'] = article.text.count(query)
             else:
                 break
 
@@ -128,6 +140,7 @@ def build_snippets(query, website, url, snippet):
                     if query in tweet_content:
                         snippet['text'] = tweet_content
                         snippet['url'] = "http://twitter.com" + tweet_url
+                        snippet['relevance'] = tweet_content.count(query)
 
     elif website == "brookings":
         print "FROM BROOKINGS...\n"
@@ -144,6 +157,7 @@ def build_snippets(query, website, url, snippet):
                 print "relevant article"
                 snippet['text'] = article.summary
                 snippet['url'] = full_url
+                snippet['relevance'] = article.text.count(query)
 
     print "DONE WITH SNIPPETS FOR: ", snippet['name']
     if 'text' in snippet:
