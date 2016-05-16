@@ -8,7 +8,7 @@ import httplib
 import urlparse
 
 results = []
-url_duplicates = []
+url_duplicates = {}
 
 def retrieve_snippets(query, n=-1):
     '''
@@ -56,9 +56,13 @@ def retrieve_snippets(query, n=-1):
                         snippet['keyword'] = query
                         url = user['links'][link]
                         print "WORKING ON SNIPPETS FROM", user['name'], "\n"
-                        process = threading.Thread(target=build_snippets, args=[query, link, url, snippet])
-                        process.start()
-                        threads.append(process)
+                        if url_duplicates.has_key(url):
+                            process = threading.Thread(target=build_snippets, args=[query, link, url, snippet])
+                            url_duplicates[url] = 1
+                            process.start()
+                            threads.append(process)
+                        else:
+                            pass
 
             for process in threads:
                 process.join()
