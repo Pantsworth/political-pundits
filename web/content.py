@@ -66,18 +66,18 @@ def all_the_content(content, reload_pundits=False):
             not_dupe_list = []
             snippet_result = pundits.retrieve_snippets(keyword)
             if snippet_result:
-                for part in snippet_result:
-                    print dupe_list.count(part)
-                    if part not in dupe_list:
-                        print "part not in dupe_list: ", part
-                        not_dupe_list.append(part)
-                    else:
-                        print "caught duplicate: ", part
-                        dupe_list.append(part)
-                        print "dupe list is: ", dupe_list
-
-                print "not dupe list: ", not_dupe_list
-                content['newpundits'].append(not_dupe_list)
+                # for part in snippet_result:
+                #     print dupe_list.count(part)
+                #     if part not in dupe_list:
+                #         print "part not in dupe_list: ", part
+                #         not_dupe_list.append(part)
+                #     else:
+                #         print "caught duplicate: ", part
+                #         dupe_list.append(part)
+                #         print "dupe list is: ", dupe_list
+                # print "not dupe list: ", not_dupe_list
+                # content['newpundits'].append(not_dupe_list)
+                content['newpundits'].append(snippet_result)
 
         _content.update({'_id': bson.ObjectId(content['id'])},
             {'$set': {'newpundits': content['newpundits']}})

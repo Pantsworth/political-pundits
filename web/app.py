@@ -51,9 +51,6 @@ def url_required():
             next_ = request.form['next']
             if url and next_:
                 return redirect('%s?url=%s' % (next_, url))
-        # else:
-        #     print "INVALID URL"
-        #     next_ = ""
     return render_template('url_required.jinja2', next=request.args.get('next'))
 
 
@@ -188,8 +185,19 @@ def browser_extensions():
 
 
 @app.route("/api")
-@app.route("/")
+@app.route("/", methods=('POST', 'GET'))
 def home():
+    if request.method == 'POST':
+        url = request.form['url']
+        validation = validate_url(url)
+
+        if validation:
+            print url
+            print "WORKING URL"
+            next_ = '/url-required?next=/politicalpundittweets'
+            if url and next_:
+                return redirect('%s?url=%s' % (next_, url))
+
     data = {
         'context': 'OK',
         'notes': [
