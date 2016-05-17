@@ -1679,7 +1679,7 @@
 
 		a:hover {
 			border-bottom-color: transparent;
-			color: #f2849e !important;
+			color: #d1d1d1 !important;
 		}
 
 	strong, b {
@@ -1861,12 +1861,65 @@
 	}
 
     .art {
-        width: 48%;
+        width: 52%;
         float: left;
         margin-left: 30px;
-        margin-right:30px;
         background: #FFFFFF;
         padding: 2em 2em 2em 2em;
+        border: solid 2px #f05454;
+        font-family: 'Crimson Text', serif;
+    }
+
+    .art p, h1, a {
+        background: #FFFFFF;
+    }
+
+    .artlink{
+        background: #f05454;
+        margin-bottom: 2em;
+        padding: 0.3em;
+        padding-left: 1em;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .artlink a{
+        background:transparent;
+        color: #FFFFFF;
+        font-size: 0.8em;
+        border: 0;
+    }
+
+    .snippetcontainer{
+        margin-left: 56%;
+        margin-right: 30px;
+    }
+
+    .snippets{
+        background: #FFFFFF;
+        border: solid 2px #f05454;
+        margin-bottom: 2em;
+        padding: 1em;
+    }
+
+    .snippets h3{
+        background: #FFFFFF;
+    }
+
+    .snippets p, a, strong{
+        background: #FFFFFF;
+    }
+
+    .title {
+        background: #f05454;
+        border: solid 2px #f05454;
+        margin-bottom: 2em;
+        padding: 1em;
+    }
+
+    .title h1{
+        background: transparent;
+        color: #FFFFFF;
     }
 
 /* Section/Article */

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <title>Political Pundits</title>
     <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
 </head>
@@ -14,42 +14,46 @@
 <div style="width: 100%; overflow: hidden;">
 
     <div class="art">
-        <h1 style="background: #FFFFFF;">{{ title }}</h1>
-        <p style="background: #FFFFFF;"><a style="background: #FFFFFF;" href="{{ url }}">{{ url }}</a></p>
-        <p style="background: #FFFFFF;">{{ text }}</p>
+
+        <div class ="artlink"><a href="{{ url }}">{{ url }}</a></div>
+        <h1>{{ title }}</h1>
+        <p>{{ text }}</p>
     </div>
 
-    <div style="margin-left: 700px; margin-right: 80px;">
-        <h1> Snippets </h1>
+    <div class="snippetcontainer">
+        <div class="snippets">
+            <h1 style = "margin: 0"> Snippets </h1>
+            </div>
 
           {% for snippetlists in newpundits %}
             {% for snippet in snippetlists %}
 
-            <div style="background: #e5fade;">
-            <h3>{{ snippet.name }}</h3>
+            <div class="snippets">
+                <h3>{{ snippet.name }}</h3>
                 <p>{{ snippet.title }}</p>
                 <a href={{ snippet.url }}>{{ snippet.url }}</a>
-                <p><strong></strong> {{ snippet.text }} </p>
+                <p> {{ snippet.text }} </p>
                 <!--<p><strong></strong> {{ snippet }} </p>-->
               </div>
             {% endfor %}
           {% endfor %}
 
-
-        <h1> Keywords </h1>
+        <div class="snippets">
+        <h1 style = "margin: 0"> Keywords </h1> </div>
 
           {% for keyword in keywords %}
-            <div style="background: #def3fa;">
+            <div class="snippets">
                 <h3>{{ keyword.keyword }}</h3>
                 <p><strong>count:</strong> {{ keyword.count }} &nbsp; <strong>locations:</strong> {{ keyword.locations|join(' | ') }}</p>
             </div>
             {% endfor %}
 
-
-        <h1> Entities </h1>
+        <div class="snippets">
+            <h1 style = "margin: 0"> Entities </h1>
+        </div>
 
           {% for entity in entities %}
-            <div style="background: #f3defa;">
+            <div class="snippets">
                 <h3>{{ entity.name }}</h3>
                 <p>{{ entity.name_forms|join(' | ') }}</p>
                 <p><strong>Type:</strong> {{ entity.type }}</p>
