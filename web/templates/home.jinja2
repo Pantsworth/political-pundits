@@ -8,15 +8,12 @@ buckley-vidal
         <div class="span4">
           <h1>Political Pundits</h1>
           <h4>Give us a link to an article about a recent global affair. We'll show you what today's political experts are saying about it...</h4>
-          <a href="/politicalpundittweets"><h2>CLICK HERE TO GIVE US A URL and dont put anything in the below form lol</h2></a>
         </div>
       </div>
 
     <form action="{{ url_for('url_required') }}" method="POST">
         <input type="hidden" name="next" value="/politicalpundittweets" />
-        <input name="url" type="text" size="55"/>
-        <br>
-        <input type="submit" value="Submit" />
+        <input name="url" type="text" size="55"/><input type="submit" value="Submit" />
     </form>
 
 {% endblock %}
