@@ -1679,7 +1679,7 @@
 
 		a:hover {
 			border-bottom-color: transparent;
-			color: #f2849e !important;
+			color: #d1d1d1 !important;
 		}
 
 	strong, b {
@@ -1698,7 +1698,7 @@
 		font-size: 2.75em;
 		font-weight: 700;
 		font-family: 'Crimson Text', serif;
-		line-height: 1.3;
+		line-height: 1.1;
 		margin: 0 0 1em 0;
 		letter-spacing: 0.028em;
 		color: #f05454;
@@ -1749,6 +1749,23 @@
 		font-family: 'Crimson Text', serif;
 		letter-spacing: -0.015em;
 	}
+
+	@media screen and (max-width: 736px) {
+
+			h4 {
+				font-size: 1.4em;
+				margin: 0 0 1em 0;
+			}
+
+		}
+
+	@media screen and (max-width: 360px) {
+
+			h4 {
+				font-size: 1.15em;
+			}
+
+		}
 
 	h5 {
 		font-size: 0.8em;
@@ -1842,6 +1859,68 @@
 	.align-right {
 		text-align: right;
 	}
+
+    .art {
+        width: 52%;
+        float: left;
+        margin-left: 30px;
+        background: #FFFFFF;
+        padding: 2em 2em 2em 2em;
+        border: solid 2px #f05454;
+        font-family: 'Crimson Text', serif;
+    }
+
+    .art p, h1, a {
+        background: #FFFFFF;
+    }
+
+    .artlink{
+        background: #f05454;
+        margin-bottom: 2em;
+        padding: 0.3em;
+        padding-left: 1em;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .artlink a{
+        background:transparent;
+        color: #FFFFFF;
+        font-size: 0.8em;
+        border: 0;
+    }
+
+    .snippetcontainer{
+        margin-left: 56%;
+        margin-right: 30px;
+    }
+
+    .snippets{
+        background: #FFFFFF;
+        border: solid 2px #f05454;
+        margin-bottom: 2em;
+        padding: 1em;
+    }
+
+    .snippets h3{
+        background: #FFFFFF;
+    }
+
+    .snippets p, a, strong{
+        background: #FFFFFF;
+    }
+
+    .title {
+        background: #f05454;
+        border: solid 2px #f05454;
+        margin-bottom: 2em;
+        padding: 1em;
+    }
+
+    .title h1{
+        background: transparent;
+        color: #FFFFFF;
+    }
 
 /* Section/Article */
 
@@ -2157,16 +2236,18 @@
 		-webkit-appearance: none;
 		-ms-appearance: none;
 		appearance: none;
-		background-color: transparent;
-		border: none;
-		border-radius: 0;
-		border-bottom: solid 1px #c9c9c9;
+		background-color: #FFFFFF;
+		border-radius: 2px;
+		border: solid 1.5px #f05454;
 		color: inherit;
+		float: left;
 		display: block;
 		outline: 0;
-		padding: 0;
+		padding: 0em;
+		padding-left: 1em;
+		padding-right: 1em;
 		text-decoration: none;
-		width: 100%;
+		width: 80%;
 	}
 
 		input[type="text"]:invalid,
@@ -2472,20 +2553,19 @@
 		-webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 		-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-		background-color: transparent;
-		border-radius: 4px;
+		background-color: #f05454;
 		border: 0;
-		box-shadow: inset 0 0 0 2px #585858;
-		color: #585858 !important;
+		box-shadow: inset 0 0 0 2px #f05454;
+		color: #ffffff !important;
 		cursor: pointer;
 		display: inline-block;
-		font-size: 0.8em;
+		font-size: 1em;
 		font-weight: 900;
-		height: 3.5em;
 		letter-spacing: 0.35em;
-		line-height: 3.45em;
+		line-height: 3em;
 		overflow: hidden;
 		padding: 0 1.25em 0 1.6em;
+		margin-left: 0.35em;
 		text-align: center;
 		text-decoration: none;
 		text-overflow: ellipsis;
@@ -2516,8 +2596,9 @@
 		input[type="button"]:hover,
 		button:hover,
 		.button:hover {
-			color: #f2849e !important;
-			box-shadow: inset 0 0 0 2px #f2849e;
+			color: #f05454 !important;
+			background: #fcd2d2;
+			box-shadow: inset 0 0 0 2px #f05454;
 		}
 
 		input[type="submit"]:active,
