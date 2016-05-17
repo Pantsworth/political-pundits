@@ -26,16 +26,18 @@ def retrieve_snippets(query, n=-1):
         text: body of the snippet
         relevance: number of times that query appears in the snippet text
     '''
-    global results
-
-
+    # global results
 
     snippets = []
+    global results
+    results = []
+
     fn = os.path.join(os.path.dirname('__file__'), 'panel/panel.json')
     if not os.path.exists(fn):
         fn = os.getcwd()[:-3] + 'context/pundits/panel/panel.json'
         # print "fn is: ", fn
         # print "current working dir is", os.getcwd()
+
 
     with open(fn, "r") as json_file:
         panel = json.loads(json_file.read())
@@ -43,7 +45,6 @@ def retrieve_snippets(query, n=-1):
 
         if query in panel.keys():
             print "FOUND RESULTS FOR ", query
-            results = []
             for user in panel[query]:
                 #create a list of threads
                 # In this case 'urls' is a list of urls to be crawled.
@@ -62,10 +63,11 @@ def retrieve_snippets(query, n=-1):
                             process.start()
                             threads.append(process)
                         else:
+                            print "thrown out url is: ", url
                             pass
 
-            for process in threads:
-                process.join()
+    for process in threads:
+        process.join()
 
     print "HERE ARE THE SNIPPETS:", results
 
@@ -84,14 +86,10 @@ def build_snippets(query, website, url, snippet):
     # snippets = []
     snippet['source'] = website
     global results
-    if url in url_duplicates:
-        print "caught duplicate url"
-    else:
-        url_duplicates.append(url)
 
-    print "BUILDING SNIPPETS...\n"
+    # print "BUILDING SNIPPETS...\n"
     if website == "cfr":
-        print "FROM CFR..."
+        # print "FROM CFR..."
         response = requests.get(url + "#publications")
         soup = bs4.BeautifulSoup(response.text, "html.parser")
         article_count = 0
@@ -116,7 +114,7 @@ def build_snippets(query, website, url, snippet):
                 break
 
     elif website == "twitter":
-        print "FROM TWITTER...\n"
+        # print "FROM TWITTER...\n"
         response = requests.get(url)
         soup = bs4.BeautifulSoup(response.text, "html.parser")
         for tweet in soup.select('div.tweet'):
@@ -131,7 +129,7 @@ def build_snippets(query, website, url, snippet):
                         snippet['relevance'] = tweet_content.count(query)
 
     elif website == "brookings":
-        print "FROM BROOKINGS...\n"
+        # print "FROM BROOKINGS...\n"
         response = requests.get(url)
         soup = bs4.BeautifulSoup(response.text, "html.parser")
         for article in soup.select('ul.media-list li div.content h3.title a'):
@@ -142,16 +140,20 @@ def build_snippets(query, website, url, snippet):
             article.parse()
             article.nlp()
             if query in article.keywords:
-                print "relevant article"
+                # print "relevant article"
                 snippet['text'] = article.summary
                 snippet['url'] = full_url
                 snippet['relevance'] = article.text.count(query)
 
     print "DONE WITH SNIPPETS FOR: ", snippet['name']
-    if 'text' in snippet:
-        results.append(snippet)
-        return snippet
+    # print snippet
 
+    if 'text' in snippet:
+        if snippet not in results:
+            results.append(snippet)
+            return snippet
+        else:
+            print "snippet already in results"
     else:
         return False
 
@@ -184,8 +186,8 @@ def validate_url(url):
 
 if __name__ == '__main__':
     # test to make sure we get nothing the second time:
-    # snippets_1 = retrieve_snippets('syria')
-    # snippets_2 = retrieve_snippets('syria')
+    snippets_1 = retrieve_snippets('syria')
+    snippets_2 = retrieve_snippets('syria')
     # print "snippets_1", snippets_1
     # print "snippets_2", snippets_2
     # print "results are: ", results
