@@ -506,6 +506,12 @@ def local_tweets(content_id=None):
         traceback.print_exc()
         return render({'url': request.url, 'error': str(e)})
 
+@app.route('/error')
+def the_error_page():
+    e = "THIS FUCKING FAILED"
+    return render({'url': request.url, 'error': str(e)},
+            template='error.jinja2')
+
 
 @app.route('/local')
 @app.route('/local/<content_id>')
