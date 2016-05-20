@@ -29,7 +29,7 @@ def all_the_content(content, reload_pundits=False):
     :return: returns keywords, entities, and newpundits, as well as storing them in the mongo object for the article
     """
 
-    reload_pundits = False
+    reload_pundits = True
 
     article = newspaper.Article(content['url'])
     article.download()
@@ -64,7 +64,8 @@ def all_the_content(content, reload_pundits=False):
         dupe_list = []
         for keyword in article.keywords:
             not_dupe_list = []
-            snippet_result = pundits.retrieve_snippets(keyword)
+            print "next keyword is: ", keyword
+            snippet_result = pundits.retrieve_snippets(keyword, 10)
             if snippet_result:
                 # for part in snippet_result:
                 #     print dupe_list.count(part)

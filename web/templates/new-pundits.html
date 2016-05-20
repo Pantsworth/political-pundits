@@ -28,8 +28,9 @@
           {% for snippetlists in newpundits %}
             {% for snippet in snippetlists %}
 
-            <div class="snippets">
-                <h3>{{ snippet.name }}</h3>
+            <div style="background: #e5fade;">
+            <h3>{{ snippet.name }}</h3>
+                <p>{{ snippet.keyword }}</p>
                 <p>{{ snippet.title }}</p>
                 <a href={{ snippet.url }}>Read more</a>
                 <p> {{ snippet.text }} </p>

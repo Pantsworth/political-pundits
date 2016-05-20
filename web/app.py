@@ -51,7 +51,7 @@ def url_required():
             next_ = request.form['next']
             if url and next_:
                 return redirect('%s?url=%s' % (next_, url))
-    return render_template('url_required.jinja2', next=request.args.get('next'))
+    return render_template('home.jinja2', next=request.args.get('next'))
 
 
 
@@ -185,6 +185,7 @@ def browser_extensions():
 
 
 @app.route("/api")
+@app.route('/url-required', methods=('POST', 'GET'))
 @app.route("/", methods=('POST', 'GET'))
 def home():
     if request.method == 'POST':
