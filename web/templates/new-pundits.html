@@ -28,16 +28,13 @@
           {% for pundit in newpundits %}
 
         <div class = "snippets">
-
-
             <div style="background: #e5fade;">
             <h3>{{ pundit.pundit.name }}</h3>
-                <!--<p>{{ snippet.keyword }}</p>-->
                 <p>{{ pundit.pundit.title }}</p>
-                <a href={{ snippet.url }}>Read More</a>
                 <p> {{ pundit.text }} </p>
-                <!--<p><strong></strong> {{ snippet }} </p>-->
+                <a href="{{ pundit.url }}"> Read More</a>
               </div>
+            </div>
           {% endfor %}
 
         <!--<div class="snippets">-->

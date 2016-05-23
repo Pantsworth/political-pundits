@@ -75,7 +75,7 @@ def keyword_match(article_database, keyword_list, n=5):
         #         concordance_list += str(result)
         # print concordance_list
 
-        article['text'] = article['text'][:300] + "..."
+        article['text'] = article['text'][:600] + "..."
 
         ratio = len(keyword_set) / float(len(set(keyword_list).union(new_list)))
         # ratio = len(set(keyword_list).intersection(new_list)) / float(len(set(keyword_list).union(new_list)))
