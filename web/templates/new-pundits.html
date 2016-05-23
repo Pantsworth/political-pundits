@@ -27,13 +27,11 @@
 
           {% for pundit in newpundits %}
 
-        <div class = "snippets">
-            <div style="background: #e5fade;">
-            <h3>{{ pundit.pundit.name }}</h3>
+            <div class = "snippets">
+                <h3>{{ pundit.pundit.name }}</h3>
                 <p>{{ pundit.pundit.title }}</p>
                 <p> {{ pundit.text }} </p>
                 <a href="{{ pundit.url }}"> Read More</a>
-              </div>
             </div>
           {% endfor %}
 
