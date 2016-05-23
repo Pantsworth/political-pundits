@@ -2,6 +2,8 @@ import csv
 import json
 
 
+
+
 def open_panel():
     panel = {}
     with open('panel.csv', 'rw') as csvfile:

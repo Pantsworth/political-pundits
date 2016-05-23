@@ -25,19 +25,19 @@
             <!--<h1 style = "margin: 0"> Snippets </h1>-->
         <!--</div>-->
 
-          {% for snippetlists in newpundits %}
-            {% for snippet in snippetlists %}
+          {% for pundit in newpundits %}
 
-            <div class = "snippets">
-            <h3>{{ snippet.name }}</h3>
+        <div class = "snippets">
+
+
+            <div style="background: #e5fade;">
+            <h3>{{ pundit.pundit.name }}</h3>
                 <!--<p>{{ snippet.keyword }}</p>-->
-                {{ snippet.title }}
-                <br><br>
-                {{ snippet.text }}
-                <a href={{ snippet.url }}>Read more</a>
+                <p>{{ pundit.pundit.title }}</p>
+                <a href={{ snippet.url }}>Read More</a>
+                <p> {{ pundit.text }} </p>
                 <!--<p><strong></strong> {{ snippet }} </p>-->
               </div>
-            {% endfor %}
           {% endfor %}
 
         <!--<div class="snippets">-->

@@ -2,13 +2,103 @@ import json
 import requests
 import bs4
 import os
+import newspaper
 from newspaper import Article, ArticleException
 import threading
 import httplib
 import urlparse
+import nltk
 
 results = []
 url_duplicates = {}
+
+
+def make_article_database():
+    fn = os.path.join(os.path.dirname('__file__'), 'database/database.json')
+    if not os.path.exists(fn):
+        fn = os.getcwd()[:-3] + 'context/pundits/database/database.json'
+        # print "fn is: ", fn
+        # print "current working dir is", os.getcwd()
+
+    with open(fn, "r") as json_file:
+        database = json.loads(json_file.read())
+
+    # print database
+    return database
+
+
+def keyword_match(article_database, keyword_list, n=5):
+    """
+
+    :param article_database: object containing JSON database (don't want to reload this every time
+    :param keyword_list: list of keyword from the article
+    :param n: number of matches to return. defaults to 5.
+    :return:    article_list: list of relevant articles, to be stored in the Mongo object for the article.
+                ratio_list: list of ratios for each article. not useful, but hey, it's there!
+    """
+
+    porter = nltk.PorterStemmer()
+
+    if article_database==[]:
+        print "making article database"
+        article_database = make_article_database()
+
+
+    new_keyword_list = []
+    for word in keyword_list:
+        new_keyword_list.append(porter.stem(word))
+
+    keyword_list = sorted(new_keyword_list)
+    print keyword_list
+
+
+    ratio_list = []
+    article_list = []
+
+    for article in article_database['snippets']:
+
+        new_list = []
+        for word in article['keywords']:
+            new_list.append(porter.stem(word))
+        new_list = sorted(new_list)
+
+        # print set(keyword_list).intersection(new_list)
+        keyword_set = set(keyword_list).intersection(set(new_list))
+        # print "keyword set is: ", keyword_set
+
+        concordance_list = []
+        # text = nltk.Text(article['text'])
+
+        # for key in keyword_set:
+        #     result = text.concordance(key)
+        #     if result:
+        #         concordance_list += str(result)
+        # print concordance_list
+
+        article['text'] = article['text'][:300] + "..."
+
+        ratio = len(keyword_set) / float(len(set(keyword_list).union(new_list)))
+        # ratio = len(set(keyword_list).intersection(new_list)) / float(len(set(keyword_list).union(new_list)))
+
+        if len(ratio_list)<n and article not in article_list:
+            ratio_list.append(ratio)
+            article_list.append(article)
+            # print ratio_list, article_list
+
+        elif ratio > min(ratio_list) and article not in article_list:
+            # print "ratio is:", ratio, "min was: ", min(ratio_list)
+            index = ratio_list.index(min(ratio_list))
+            ratio_list[index] = ratio
+            article_list[index] = article
+            # print ratio_list, article_list
+
+        # print ratio, min(ratio_list)
+
+        # print ratio, keyword_list,"\n", sorted(article['keywords'])
+    print ratio_list, article_list
+    return article_list, ratio_list
+
+
 
 def retrieve_snippets(query, n=-1):
     '''
@@ -186,8 +276,8 @@ def validate_url(url):
 
 if __name__ == '__main__':
     # test to make sure we get nothing the second time:
-    snippets_1 = retrieve_snippets('syria')
-    snippets_2 = retrieve_snippets('syria')
+    keyword_match(make_article_database(), None)
+
     # print "snippets_1", snippets_1
     # print "snippets_2", snippets_2
     # print "results are: ", results
