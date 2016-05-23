@@ -21,46 +21,47 @@
     </div>
 
     <div class="snippetcontainer">
-        <div class="snippets">
-            <h1 style = "margin: 0"> Snippets </h1>
-            </div>
+        <!--<div class="snippets">-->
+            <!--<h1 style = "margin: 0"> Snippets </h1>-->
+        <!--</div>-->
 
           {% for snippetlists in newpundits %}
             {% for snippet in snippetlists %}
 
-            <div style="background: #e5fade;">
+            <div class = "snippets">
             <h3>{{ snippet.name }}</h3>
-                <p>{{ snippet.keyword }}</p>
-                <p>{{ snippet.title }}</p>
+                <!--<p>{{ snippet.keyword }}</p>-->
+                {{ snippet.title }}
+                <br><br>
+                {{ snippet.text }}
                 <a href={{ snippet.url }}>Read more</a>
-                <p> {{ snippet.text }} </p>
                 <!--<p><strong></strong> {{ snippet }} </p>-->
               </div>
             {% endfor %}
           {% endfor %}
 
-        <div class="snippets">
-        <h1 style = "margin: 0"> Keywords </h1> </div>
+        <!--<div class="snippets">-->
+        <!--<h1 style = "margin: 0"> Keywords </h1> </div>-->
 
-          {% for keyword in keywords %}
-            <div class="snippets">
-                <h3>{{ keyword.keyword }}</h3>
-                <p><strong>count:</strong> {{ keyword.count }} &nbsp; <strong>locations:</strong> {{ keyword.locations|join(' | ') }}</p>
-            </div>
-            {% endfor %}
+          <!--{% for keyword in keywords %}-->
+            <!--<div class="snippets">-->
+                <!--<h3>{{ keyword.keyword }}</h3>-->
+                <!--<p><strong>count:</strong> {{ keyword.count }} &nbsp; <strong>locations:</strong> {{ keyword.locations|join(' | ') }}</p>-->
+            <!--</div>-->
+            <!--{% endfor %}-->
 
-        <div class="snippets">
-            <h1 style = "margin: 0"> Entities </h1>
-        </div>
+        <!--<div class="snippets">-->
+            <!--<h1 style = "margin: 0"> Entities </h1>-->
+        <!--</div>-->
 
-          {% for entity in entities %}
-            <div class="snippets">
-                <h3>{{ entity.name }}</h3>
-                <p>{{ entity.name_forms|join(' | ') }}</p>
-                <p><strong>Type:</strong> {{ entity.type }}</p>
-                <p><strong>Score:</strong> {{ entity.score }}</p>
-            </div>
-          {% endfor %}
+          <!--{% for entity in entities %}-->
+            <!--<div class="snippets">-->
+                <!--<h3>{{ entity.name }}</h3>-->
+                <!--<p>{{ entity.name_forms|join(' | ') }}</p>-->
+                <!--<p><strong>Type:</strong> {{ entity.type }}</p>-->
+                <!--<p><strong>Score:</strong> {{ entity.score }}</p>-->
+            <!--</div>-->
+          <!--{% endfor %}-->
     </div>
 </div>
 
