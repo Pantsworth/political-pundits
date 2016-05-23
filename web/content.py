@@ -21,7 +21,7 @@ class InvalidRequest(Exception):
     status_code = 400
 
 
-def all_the_content(content, reload_pundits=False):
+def all_the_content(content, article_database_ref, reload_pundits=False):
     """
 
     :param content: this is the mongo object containing our content up to now
@@ -62,23 +62,27 @@ def all_the_content(content, reload_pundits=False):
     if not 'newpundits' in content or reload_pundits:
         content['newpundits'] = []
         dupe_list = []
-        for keyword in article.keywords:
-            not_dupe_list = []
-            print "next keyword is: ", keyword
-            snippet_result = pundits.retrieve_snippets(keyword, 10)
-            if snippet_result:
-                # for part in snippet_result:
-                #     print dupe_list.count(part)
-                #     if part not in dupe_list:
-                #         print "part not in dupe_list: ", part
-                #         not_dupe_list.append(part)
-                #     else:
-                #         print "caught duplicate: ", part
-                #         dupe_list.append(part)
-                #         print "dupe list is: ", dupe_list
-                # print "not dupe list: ", not_dupe_list
-                # content['newpundits'].append(not_dupe_list)
-                content['newpundits'].append(snippet_result)
+
+        snippets, ratios = pundits.keyword_match(article_database_ref, article.keywords)
+        content['newpundits'] = snippets
+
+        # for keyword in article.keywords:
+        #     not_dupe_list = []
+        #     print "next keyword is: ", keyword
+        #     snippet_result = pundits.retrieve_snippets(keyword, 10)
+        #     if snippet_result:
+        #         # for part in snippet_result:
+        #         #     print dupe_list.count(part)
+        #         #     if part not in dupe_list:
+        #         #         print "part not in dupe_list: ", part
+        #         #         not_dupe_list.append(part)
+        #         #     else:
+        #         #         print "caught duplicate: ", part
+        #         #         dupe_list.append(part)
+        #         #         print "dupe list is: ", dupe_list
+        #         # print "not dupe list: ", not_dupe_list
+        #         # content['newpundits'].append(not_dupe_list)
+        #         content['newpundits'].append(snippet_result)
 
         _content.update({'_id': bson.ObjectId(content['id'])},
             {'$set': {'newpundits': content['newpundits']}})

@@ -1,5 +1,6 @@
 import traceback
 from birdy.twitter import UserClient, TwitterAuthError, TwitterClientError
+from context.pundits import pundits
 from context.config import get_twitter_keys, get_section_data
 from context.query import twitter_query
 from context.services.twitter import \
@@ -18,7 +19,6 @@ from session import session_get, session_set, \
 from stakeholders import stakeholder_tweets
 from pundits import pundit_tweets
 
-
 app = Flask(__name__)
 
 
@@ -26,7 +26,7 @@ from werkzeug.wsgi import DispatcherMiddleware
 
 app.secret_key = get_section_data()['flaskapp_secret_key']
 application = app
-
+article_database = []
 
 def render(data, template=None):
     if all([
@@ -188,6 +188,11 @@ def browser_extensions():
 @app.route('/url-required', methods=('POST', 'GET'))
 @app.route("/", methods=('POST', 'GET'))
 def home():
+    global article_database
+    if article_database==[]:
+        article_database = pundits.make_article_database()
+        print "Built article database"
+
     if request.method == 'POST':
         url = request.form['url']
         validation = validate_url(url)
@@ -430,15 +435,15 @@ def politicalpundittweets(content_id=None):
     Retrieve pundit tweets for article with <content_id>
     Alternatively accepts url or id in query params.
     """
+    global article_database
     try:
         url = request.args.get('url')
         if not url:
             raise Exception('Expected url parameter')
 
         grab_content = cached_content(url)
-        all_content = all_the_content(grab_content)
-        print all_content
-
+        all_content = all_the_content(grab_content, article_database)
+        # print all_content
         return render(grab_content, template='new-pundits.html')
 
     except Exception, e:
