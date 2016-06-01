@@ -122,6 +122,94 @@ def build_db():
                             except requests.exceptions.ConnectionError:
                                 pass
 
+                    if pundit['links']['baker']:
+                        response = requests.get(pundit['links']['baker'])
+                        soup = bs4.BeautifulSoup(response.text, "html.parser")
+
+                        for link in soup.select('h3#library ul li a'):
+                            snippet = {}
+                            link_href = str(link.attrs.get('href'))
+
+                            try:
+                                url = "http://www.bakerinstitute.org" + link_href
+                                full_url_link = soup.select('div.research_content div.researchContent span a')[-1]
+
+                                if full_url_link:
+                                    full_url = str(full_url_link.parent.attrs.get('href'))
+                                else:
+                                    full_url = url
+
+                                link_response = requests.get(url)
+                                soup = bs4.BeautifulSoup(link_response.text, "html.parser")
+
+                                if 'pdf' not in full_url and validate_url(full_url):
+                                    article = Article(full_url)
+                                else:
+                                    article = Article(url)
+
+                                try:
+                                    article.download()
+                                    article.parse()
+                                    article.nlp()
+
+                                    print '\t\t', url
+                                    snippet["text"] = article.text
+                                    snippet["summary"] = article.summary
+                                    snippet["url"] = url
+                                    snippet["full_url"] = full_url
+                                    snippet["keywords"] = article.keywords
+
+                                    snippet["pundit"] = {}
+                                    snippet["pundit"]["name"] = pundit["name"]
+                                    snippet["pundit"]["title"] = pundit["title"]
+                                    db['snippets'].append(snippet)
+                                except ArticleException:
+                                    pass
+                            except requests.exceptions.ConnectionError:
+                                pass
+
+                    if pundit['links']['ecfr']:
+                        response = requests.get(pundit['links']['ecfr'])
+                        soup = bs4.BeautifulSoup(response.text, "html.parser")
+
+                        for link in soup.select('ul#all li div.post div.list-content a'):
+                            snippet = {}
+                            link_href = str(link.attrs.get('href'))
+
+                            try:
+                                url = "http://www.ecfr.eu" + link_href
+                                full_url = url
+
+                                link_response = requests.get(url)
+                                soup = bs4.BeautifulSoup(link_response.text, "html.parser")
+
+                                if 'pdf' not in full_url and validate_url(full_url):
+                                    article = Article(full_url)
+                                else:
+                                    article = Article(url)
+
+                                try:
+                                    article.download()
+                                    article.parse()
+                                    article.nlp()
+
+                                    print '\t\t', url
+                                    snippet["text"] = article.text
+                                    snippet["summary"] = article.summary
+                                    snippet["url"] = url
+                                    snippet["full_url"] = full_url
+                                    snippet["keywords"] = article.keywords
+
+                                    snippet["pundit"] = {}
+                                    snippet["pundit"]["name"] = pundit["name"]
+                                    snippet["pundit"]["title"] = pundit["title"]
+                                    db['snippets'].append(snippet)
+                                except ArticleException:
+                                    pass
+                            except requests.exceptions.ConnectionError:
+                                pass
+
+
             json.dump(db, outfile, indent=4)
 
 
