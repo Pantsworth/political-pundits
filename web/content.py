@@ -3,11 +3,11 @@ from functools import wraps
 from flask import request, redirect, url_for
 from connection import _content
 from context.content import get_article
-from context.nlp.classifier import classify_text
-from context.nlp.entities import get_entities
-from context.nlp.keywords import get_keywords
+# from context.nlp.classifier import classify_text
+# from context.nlp.entities import get_entities
+# from context.nlp.keywords import get_keywords
 from auth import get_twitter_credentials
-from stakeholders import find_stakeholder_twitter_users
+# from stakeholders import find_stakeholder_twitter_users
 import requests
 import httplib
 import urlparse
@@ -38,26 +38,19 @@ def all_the_content(content, article_database_ref, reload_pundits=False):
 
     print "HERE ARE THE NEWSPAPER KEYWORDS", article.keywords
 
+    content['keywords']=""
+    content['entities']=""
 
-    if not 'keywords' in content:
-        content['keywords'] = [x for x in get_keywords(content['text'])
-            if x['count'] > 2]
-        _content.update({'_id': bson.ObjectId(content['id'])},
-            {'$set': {'keywords': content['keywords']}})
-
-    if not 'entities' in content:
-        content['entities'] = get_entities(content['text'])
-        _content.update({'_id': bson.ObjectId(content['id'])},
-            {'$set': {'entities': content['entities']}})
-
-    # if reload_pundits:
-    #     content['newpundits'] = []
-    #     for keyword in article.keywords:
-    #         snippet_result = pundits.retrieve_snippets(keyword)
-    #         if snippet_result:
-    #             content['newpundits'].append(snippet_result)
+    # if not 'keywords' in content:
+    #     content['keywords'] = [x for x in get_keywords(content['text'])
+    #         if x['count'] > 2]
     #     _content.update({'_id': bson.ObjectId(content['id'])},
-    #         {'$set': {'newpundits': content['newpundits']}})
+    #         {'$set': {'keywords': content['keywords']}})
+    #
+    # if not 'entities' in content:
+    #     content['entities'] = get_entities(content['text'])
+    #     _content.update({'_id': bson.ObjectId(content['id'])},
+    #         {'$set': {'entities': content['entities']}})
 
     if not 'newpundits' in content or reload_pundits:
         content['newpundits'] = []
@@ -65,24 +58,6 @@ def all_the_content(content, article_database_ref, reload_pundits=False):
 
         snippets, ratios = pundits.keyword_match(article_database_ref, article.keywords)
         content['newpundits'] = snippets
-
-        # for keyword in article.keywords:
-        #     not_dupe_list = []
-        #     print "next keyword is: ", keyword
-        #     snippet_result = pundits.retrieve_snippets(keyword, 10)
-        #     if snippet_result:
-        #         # for part in snippet_result:
-        #         #     print dupe_list.count(part)
-        #         #     if part not in dupe_list:
-        #         #         print "part not in dupe_list: ", part
-        #         #         not_dupe_list.append(part)
-        #         #     else:
-        #         #         print "caught duplicate: ", part
-        #         #         dupe_list.append(part)
-        #         #         print "dupe list is: ", dupe_list
-        #         # print "not dupe list: ", not_dupe_list
-        #         # content['newpundits'].append(not_dupe_list)
-        #         content['newpundits'].append(snippet_result)
 
         _content.update({'_id': bson.ObjectId(content['id'])},
             {'$set': {'newpundits': content['newpundits']}})
@@ -98,51 +73,46 @@ def all_the_content(content, article_database_ref, reload_pundits=False):
     else:
         print "HERE ARE NEW PUNDITS:", content['newpundits']
 
-    # if not 'categories' in content:
-    #     content['categories'] = classify_text(content['text'])
-    #     _content.update({'_id': bson.ObjectId(content['id'])},
-    #         {'$set': {'categories': content['categories']}})
-
     return content['keywords'], content['entities'], content['newpundits']
 
 
-def content_keywords(content):
-    if not 'keywords' in content:
-        content['keywords'] = [x for x in get_keywords(content['text'])
-            if x['count'] > 2]
-        _content.update({'_id': bson.ObjectId(content['id'])},
-            {'$set': {'keywords': content['keywords']}})
-    return content['keywords']
-
-
-def content_entities(content):
-    if not 'entities' in content:
-        content['entities'] = get_entities(content['text'])
-        _content.update({'_id': bson.ObjectId(content['id'])},
-            {'$set': {'entities': content['entities']}})
-    return content['entities']
-
-
-def content_categories(content):
-    if not 'categories' in content:
-        content['categories'] = classify_text(content['text'])
-        _content.update({'_id': bson.ObjectId(content['id'])},
-            {'$set': {'categories': content['categories']}})
-    return content['categories']
-
-
-def content_stakeholders(content):
-    if not 'stakeholders' in content:
-        entities = content_entities(content)
-        kwargs = {
-            'credentials': get_twitter_credentials()
-        }
-        stakeholder_list = find_stakeholder_twitter_users(
-            entities, **kwargs)
-        content['stakeholders'] = stakeholder_list
-        _content.update({'_id': bson.ObjectId(content['id'])},
-            {'$set': {'stakeholders': content['stakeholders']}})
-    return content['stakeholders']
+# def content_keywords(content):
+#     if not 'keywords' in content:
+#         content['keywords'] = [x for x in get_keywords(content['text'])
+#             if x['count'] > 2]
+#         _content.update({'_id': bson.ObjectId(content['id'])},
+#             {'$set': {'keywords': content['keywords']}})
+#     return content['keywords']
+#
+#
+# def content_entities(content):
+#     if not 'entities' in content:
+#         content['entities'] = get_entities(content['text'])
+#         _content.update({'_id': bson.ObjectId(content['id'])},
+#             {'$set': {'entities': content['entities']}})
+#     return content['entities']
+#
+#
+# def content_categories(content):
+#     if not 'categories' in content:
+#         content['categories'] = classify_text(content['text'])
+#         _content.update({'_id': bson.ObjectId(content['id'])},
+#             {'$set': {'categories': content['categories']}})
+#     return content['categories']
+#
+#
+# def content_stakeholders(content):
+#     if not 'stakeholders' in content:
+#         entities = content_entities(content)
+#         kwargs = {
+#             'credentials': get_twitter_credentials()
+#         }
+#         stakeholder_list = find_stakeholder_twitter_users(
+#             entities, **kwargs)
+#         content['stakeholders'] = stakeholder_list
+#         _content.update({'_id': bson.ObjectId(content['id'])},
+#             {'$set': {'stakeholders': content['stakeholders']}})
+#     return content['stakeholders']
 
 
 def cached_content(url=None, content_id=None, refresh=False):

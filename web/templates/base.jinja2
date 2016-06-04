@@ -89,36 +89,36 @@
             <li{% if request.endpoint == 'url_' %} class="active"{% endif %}>
                 <a href="{{ url_for('url_') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">URL</a>
             </li>
-            <li{% if request.endpoint == 'content' %} class="active"{% endif %}>
-                <a href="{{ url_for('content') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Content</a>
-            </li>
-            <li{% if request.endpoint == 'keywords' %} class="active"{% endif %}>
-                <a href="{{ url_for('keywords') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Keywords</a>
-            </li>
-            <li{% if request.endpoint == 'entities' %} class="active"{% endif %}>
-                <a href="{{ url_for('entities') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Entities</a>
-            </li>
-            <li{% if request.endpoint == 'topic' %} class="active"{% endif %}>
-                <a href="{{ url_for('topic') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Topic<br/>Tweets</a>
-            </li>
-            <li{% if request.endpoint == 'local' %} class="active"{% endif %}>
-                <a href="{{ url_for('local') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Local<br/>Tweets</a>
-            </li>
-            <li{% if request.endpoint == 'stakeholders' %} class="active"{% endif %}>
-                <a href="{{ url_for('stakeholders') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Stakeholders</a>
-            </li>
-            <li{% if request.endpoint == 'stakeholdertweets' %} class="active"{% endif %}>
-                <a href="{{ url_for('stakeholdertweets') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Stakeholder<br/>Tweets</a>
-            </li>
-            <li{% if request.endpoint == 'reddits' %} class="active"{% endif %}>
-                <a href="{{ url_for('reddits') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Reddits</a>
-            </li>
-            <li{% if request.endpoint == 'categories' %} class="active"{% endif %}>
-                <a href="{{ url_for('categories') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Categories</a>
-            </li>
-            <li{% if request.endpoint == 'pundittweets' %} class="active"{% endif %}>
-                <a href="{{ url_for('pundittweets') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Pundit<br/>Tweets</a>
-            </li>
+{#            <li{% if request.endpoint == 'content' %} class="active"{% endif %}>#}
+{#                <a href="{{ url_for('content') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Content</a>#}
+{#            </li>#}
+{#            <li{% if request.endpoint == 'keywords' %} class="active"{% endif %}>#}
+{#                <a href="{{ url_for('keywords') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Keywords</a>#}
+{#            </li>#}
+{#            <li{% if request.endpoint == 'entities' %} class="active"{% endif %}>#}
+{#                <a href="{{ url_for('entities') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Entities</a>#}
+{#            </li>#}
+{#            <li{% if request.endpoint == 'topic' %} class="active"{% endif %}>#}
+{#                <a href="{{ url_for('topic') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Topic<br/>Tweets</a>#}
+{#            </li>#}
+{#            <li{% if request.endpoint == 'local' %} class="active"{% endif %}>#}
+{#                <a href="{{ url_for('local') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Local<br/>Tweets</a>#}
+{#            </li>#}
+{#            <li{% if request.endpoint == 'stakeholders' %} class="active"{% endif %}>#}
+{#                <a href="{{ url_for('stakeholders') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Stakeholders</a>#}
+{#            </li>#}
+{#            <li{% if request.endpoint == 'stakeholdertweets' %} class="active"{% endif %}>#}
+{#                <a href="{{ url_for('stakeholdertweets') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Stakeholder<br/>Tweets</a>#}
+{#            </li>#}
+{#            <li{% if request.endpoint == 'reddits' %} class="active"{% endif %}>#}
+{#                <a href="{{ url_for('reddits') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Reddits</a>#}
+{#            </li>#}
+{#            <li{% if request.endpoint == 'categories' %} class="active"{% endif %}>#}
+{#                <a href="{{ url_for('categories') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Categories</a>#}
+{#            </li>#}
+{#            <li{% if request.endpoint == 'pundittweets' %} class="active"{% endif %}>#}
+{#                <a href="{{ url_for('pundittweets') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Pundit<br/>Tweets</a>#}
+{#            </li>#}
               <li{% if request.endpoint == 'politicalpundittweets' %} class="active"{% endif %}>
                 <a href="{{ url_for('politicalpundittweets') }}{% if request.content %}?url={{ request.content.url }}{% endif %}">Political Pundit<br/>Tweets</a>
             </li>
