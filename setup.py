@@ -10,7 +10,7 @@ setup(
     install_requires=[
         'pyopenssl',
         'ndg-httpsclient',
-        'pyasn1',
+        # 'pyasn1',
         'requests==2.3.0',
         'nltk==2.0.5',
         'newspaper',
