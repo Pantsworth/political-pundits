@@ -441,4 +441,4 @@ def url_():
 #         return render({'url': request.url, 'error': str(e)})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=False)

@@ -1,7 +1,5 @@
 # NU Infolab News Context Project
 
-IF WE FUCK UP, THIS IS WHERE WE COME BACK TO.
-
 context is a suite of Python based tools for managing contextual knowledge related to web content. This includes resources for article text and metadata extraction from web pages, keyword and named entity extraction, and more.
 
 The primary entry point is a Flask based web application that serves both HTML and JSON payloads. This application is located in the web directory.
