@@ -15,8 +15,9 @@ setup(
         'nltk==2.0.5',
         'newspaper',
         'numpy',
-        'birdy',
+        # 'birdy',
         'flask',
+        'cffi',
         'pymongo',
         'requests-oauthlib'
     ],

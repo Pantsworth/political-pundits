@@ -6,13 +6,13 @@ import flask
 from context.pundits import pundits
 from context.config import get_twitter_keys, get_section_data
 # from context.query import twitter_query
-from context.services.twitter import \
-    search_recent, dedupe_tweets, \
-    screen_name_filter, group_tweets_by_text, \
-    group_tweets_by_screen_name
+# from context.services.twitter import \
+#     search_recent, dedupe_tweets, \
+#     screen_name_filter, group_tweets_by_text, \
+#     group_tweets_by_screen_name
 
 from flask import Flask, render_template, request, jsonify, url_for, redirect
-from auth import get_twitter_credentials
+# from auth import get_twitter_credentials
 from content import content_identifier_required, all_the_content, cached_content, validate_url
 from session import session_get, session_set, \
     remove_session_credentials, session_pop, session_pop_list
@@ -145,17 +145,18 @@ def auth_verify():
         auth_redirect = session_get('auth_redirect')
         if not (auth_token and auth_token_secret):
             raise Exception('Authorization credentials not found in session')
-        tk = get_twitter_keys()
-        client = UserClient(tk.consumer_key, tk.consumer_secret,
-                    auth_token, auth_token_secret)
-        token = client.get_access_token(oauth_verifier)
-        session_set('access_token', token.oauth_token)
-        session_set('access_token_secret', token.oauth_token_secret)
-        session_pop_list(['auth_token', 'auth_token_secret', 'auth_redirect'])
-        if auth_redirect:
-            return redirect(auth_redirect)
-        else:
-            return redirect(url_for('home'))
+        # tk = get_twitter_keys()
+        # client = UserClient(tk.consumer_key, tk.consumer_secret,
+        #             auth_token, auth_token_secret)
+        # token = client.get_access_token(oauth_verifier)
+        # session_set('access_token', token.oauth_token)
+        # session_set('access_token_secret', token.oauth_token_secret)
+        # session_pop_list(['auth_token', 'auth_token_secret', 'auth_redirect'])
+        # if auth_redirect:
+        #     return redirect(auth_redirect)
+        # else:
+        #     return redirect(url_for('home'))
+        auth_redirect = ""
     except Exception, e:
         traceback.print_exc()
         return redirect(auth_redirect)

@@ -6,7 +6,7 @@ from context.content import get_article
 # from context.nlp.classifier import classify_text
 # from context.nlp.entities import get_entities
 # from context.nlp.keywords import get_keywords
-from auth import get_twitter_credentials
+# from auth import get_twitter_credentials
 # from stakeholders import find_stakeholder_twitter_users
 import requests
 import httplib
