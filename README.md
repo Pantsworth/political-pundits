@@ -1,3 +1,12 @@
+Political-Pundits is a web application based on the Knight Lab's Context toolkit. It is designed to provide additional depth to the reader of a news article by offering them expert additions to the story from a hand-curated set of experts in the domain of foreign policy.
+
+To use it, the reader simply takes a URL for an article they'd like to get expert opinions on and drops it into our input field. After a few seconds, the Political Pundits app will respond with a compact page that contains both the full text of the article as well as content from experts writing about the same topic.
+
+Political Pundits is functional for any input URL that can be read by the newspaper web scraping python library. If you encounter an error, it is likely a result of updates or modifications to said library or the news site being accessed.
+
+
+
+
 # NU Infolab News Context Project
 
 context is a suite of Python based tools for managing contextual knowledge related to web content. This includes resources for article text and metadata extraction from web pages, keyword and named entity extraction, and more.
