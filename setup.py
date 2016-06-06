@@ -17,7 +17,6 @@ setup(
         'numpy',
         # 'birdy',
         'flask',
-        'libffi',
         'cryptography',
         'cffi',
         'pymongo',
